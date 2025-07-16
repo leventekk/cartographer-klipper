@@ -70,8 +70,8 @@ def data_process(path):
             except:pass
     dv=int(len(temp)/1000)
     if dv>1:
-        freq=np.array(freq[::dv])
-        temp=np.array(temp[::dv])
+        freq=np.asarray(freq[::dv])
+        temp=np.asarray(temp[::dv])
     plt.plot(temp[20:],freq[20:])
     param_bounds=([0,-np.inf,-np.inf],[np.inf,np.inf,np.inf])
     linear_params, params_covariance = curve_fit(line_fit, temp[20:],freq[20:],bounds=param_bounds,maxfev=100000,ftol=1e-10,xtol=1e-10)
@@ -114,10 +114,10 @@ while(1):
         print("please make sure you have move the 3 data file to cartographer-klipper folder\n if the files have been moved, are you running this from the cartographer-klipper folder?")
         break
     model=TempModel(None,None,None,None,2943053.8415908813,23.33)
-    linear_params, params_covariance = curve_fit(param_linear, np.array(freqs)-model.fmin,a,maxfev=100000,ftol=1e-10,xtol=1e-10)
+    linear_params, params_covariance = curve_fit(param_linear, np.asarray(freqs)-model.fmin,a,maxfev=100000,ftol=1e-10,xtol=1e-10)
     model.a_a=linear_params[0]
     model.a_b=linear_params[1]
-    linear_params1, params_covariance = curve_fit(param_linear, np.array(freqs)-model.fmin,b,maxfev=100000,ftol=1e-10,xtol=1e-10)
+    linear_params1, params_covariance = curve_fit(param_linear, np.asarray(freqs)-model.fmin,b,maxfev=100000,ftol=1e-10,xtol=1e-10)
     model.b_a=linear_params1[0]
     model.b_b=linear_params1[1]
     for path in paths:
@@ -135,8 +135,8 @@ while(1):
                 except:pass
         dv=int(len(temp)/10000)
         if dv>1:
-            freq=np.array(freq[::dv])
-            temp=np.array(temp[::dv])
+            freq=np.asarray(freq[::dv])
+            temp=np.asarray(temp[::dv])
         temp=temp[200:]
         freq=freq[200:]
         result0=[]

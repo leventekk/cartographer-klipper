@@ -1694,7 +1694,7 @@ class IDMMeshHelper:
             y_max = max(start[1], end[1])
             self.faulty_regions.append(Region(x_min, x_max, y_min, y_max))
             self.faulty_region_.append([x_min, y_min, x_max, y_max])
-        self.faulty_region_ = np.array(self.faulty_region_).T
+        self.faulty_region_ = np.asarray(self.faulty_region_).T
         self.exclude_object = None
         self.idm.printer.register_event_handler(
             "klippy:connect", self._handle_connect
@@ -2153,11 +2153,11 @@ class IDMMeshHelper:
 
     def _interpolate_faulty(self, matrix, faulty_indexes, interpolator):
         ys, xs = np.mgrid[0 : matrix.shape[0], 0 : matrix.shape[1]]
-        points = np.array([ys.flatten(), xs.flatten()]).T
+        points = np.asarray([ys.flatten(), xs.flatten()]).T
         values = matrix.reshape(-1)
         good = ~np.isnan(values)
         fixed = interpolator(points[good], values[good], faulty_indexes)
-        matrix[tuple(np.array(faulty_indexes).T)] = fixed
+        matrix[tuple(np.asarray(faulty_indexes).T)] = fixed
         return matrix
 
     def _check_matrix(self, matrix):

@@ -1508,7 +1508,7 @@ class CartographerMeshHelper:
             y_max = max(start[1], end[1])
             self.faulty_regions.append(Region(x_min, x_max, y_min, y_max))
             self.faulty_region_.append([x_min, y_min, x_max, y_max])
-        self.faulty_region_ = np.array(self.faulty_region_).T
+        self.faulty_region_ = np.asarray(self.faulty_region_).T
         self.exclude_object = None
         self.cartographer.printer.register_event_handler(
             "klippy:connect", self._handle_connect
@@ -1888,12 +1888,12 @@ class CartographerMeshHelper:
 
     def _interpolate_faulty(self, clusters):
         faulty_indexes = []
-        position = np.array(list(clusters.keys()))
+        position = np.asarray(list(clusters.keys()))
         (xi_max,yi_max) = position.T.max(axis = 1)
         pos_temp = (position.T*[[self.step_x],[self.step_y]]+[[self.min_x],[self.min_y]])
         if len(self.faulty_region_.shape) > 1:
             length=self.faulty_region_.shape[1]
-            flag = np.array(
+            flag = np.asarray(
                 [
                     (pos_temp > self.faulty_region_[:2].reshape(1,2,length).T).T.all(axis=1),
                     (pos_temp < self.faulty_region_[2:].reshape(1,2,length).T).T.all(axis=1)
@@ -1906,11 +1906,11 @@ class CartographerMeshHelper:
         del pos_temp
 
         def get_nearest(start, dx, dy):
-            inputs = np.array(start)
+            inputs = np.asarray(start)
             inputs += [dx,dy]
             while ((inputs >= 0).all() and (inputs <= [xi_max,yi_max]).all()):
                 if clusters.get(tuple(inputs),None) is not None:
-                    return (abs(inputs-np.array(start)).sum(), median(clusters[tuple(inputs)]))
+                    return (abs(inputs-np.asarray(start)).sum(), median(clusters[tuple(inputs)]))
                 inputs += [dx,dy]
             return None
 

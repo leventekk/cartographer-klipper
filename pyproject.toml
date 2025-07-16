@@ -11,3 +11,6 @@ failOnWarnings = false
 [tool.ruff]
 target-version = "py38"
 include = ["scanner.py"]
+
+[tool.ruff.lint]
+select = ["NPY201"]
